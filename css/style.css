@@ -1,0 +1,89 @@
+/* Phần chung */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+body {
+    display: flex;
+    font-family: 'Quicksand', sans-serif;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Phần Header */
+.header {
+    background-color: #b21c25;
+    padding: 10px 70px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-logo {
+    width: 80px;
+    height: 70px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+button, select {
+    padding: 10px 40px;
+    font-family: 'Quicksand', sans-serif;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    background-color: #e9063c;
+}
+
+select {
+    font-size: 22px;
+    background-color: #fff;
+}
+
+.btn:hover {
+    background-color: #c80533;
+}
+
+/* Phần main */
+main {
+    /* flex: 1; */
+    background-image: url(https://lophoc.net/ass/beerace/nen2.jpg);
+    position: relative;
+    background-position: 0px 0px;
+    height: 652px;
+    background-size: 1956px 652px;
+}
+
+/* Footer section */
+.footer {
+    background: #e9063c;
+    padding: 30px 0;
+    color: #fff;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
