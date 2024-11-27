@@ -14,10 +14,41 @@ body {
     margin: 0;
 }
 
+/* Phần button, select */
+button, select {
+    padding: 10px 40px;
+    font-family: 'Quicksand', sans-serif;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    border-radius: 30px;
+    background-color: #e9063c;
+}
+
+select {
+    appearance: none;
+    padding-right: 50px;
+    font-size: 22px;
+    border-radius: 16px;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 10px) center;
+}
+
+.btn:hover {
+    background-color: #c80533;
+}
+
 /* Phần Header */
 .header {
     background-color: #b21c25;
-    padding: 10px 70px;
+    padding: 10px 120px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -37,39 +68,69 @@ body {
     gap: 10px;
 }
 
-button, select {
-    padding: 10px 40px;
-    font-family: 'Quicksand', sans-serif;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button {
-    color: #fff;
-    font-size: 30px;
-    font-weight: 600;
-    background-color: #e9063c;
-}
-
-select {
-    font-size: 22px;
-    background-color: #fff;
-}
-
-.btn:hover {
-    background-color: #c80533;
-}
-
 /* Phần main */
 main {
-    /* flex: 1; */
-    background-image: url(https://lophoc.net/ass/beerace/nen2.jpg);
+    background-image: url("../img/hinhnen.jpg");
     position: relative;
     background-position: 0px 0px;
     height: 652px;
     background-size: 1956px 652px;
+}
+
+.race-start-img {
+    position: absolute;
+    height: 505px;
+    left: 180px;
+    top: 20px;
+}
+
+.race-end-img {
+    position: absolute;
+    height: 505px;
+    left: 1230px;
+    top: 20px;
+}
+
+.bee-avatar-0 {
+    position: absolute;
+    top: 30px;
+    left: 220px;
+    height: 100px;
+    transform: scaleX(-1);
+}
+
+.bee-name-0 {
+    padding: 10px;
+    top: 50px;
+    left: 80px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    background-color: #0dcaf0;
+    color: #fff;
+    float: left;
+    font-size: 22px;
+}
+
+/* .bee-name-0::after {
+    content: "";
+    position: absolute;
+    right: -17px;
+    top: 0;
+    border-top: 21px solid transparent;
+    border-left: 18px solid #0dcaf0;
+    border-bottom: 28px solid transparent;
+} */
+
+.bee-name-0::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -14px;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 10px 0 10px 15px;
+    border-color: transparent transparent transparent #0dcaf0;
 }
 
 /* Footer section */
