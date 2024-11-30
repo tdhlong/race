@@ -80,48 +80,47 @@ main {
 .race-start-img {
     position: absolute;
     height: 505px;
-    left: 180px;
-    top: 20px;
+    left: 200px;
+    top: 10px;
 }
 
 .race-end-img {
     position: absolute;
     height: 505px;
-    left: 1230px;
-    top: 20px;
+    left: 1300px;
+    top: 10px;
 }
 
 .bee-avatar-0, .bee-avatar-1, .bee-avatar-2, .bee-avatar-3 {
     position: absolute;
     height: 100px;
     transform: scaleX(-1);
-    z-index: 100;
+    z-index: 101;
 }
 
 .bee-avatar-0 {
-    top: 30px;
-    left: 220px;
+    top: 20px;
+    left: 80px;
 }
 
 .bee-avatar-1 {
     top: 110px;
-    left: 200px;
+    left: 80px;
 }
 
 .bee-avatar-2 {
     top: 195px;
-    left: 175px;
+    left: 80px;
 }
 
 .bee-avatar-3 {
     top: 282px;
-    left: 145px;
+    left: 80px;
 }
 
 .bee-name-0, .bee-name-1, .bee-name-2, .bee-name-3 {
-    padding: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    padding: 5px;
+    border-radius: 10px;
     position: absolute;
     background-color: #0dcaf0;
     color: #fff;
@@ -135,36 +134,39 @@ main {
 }
 
 .bee-name-0 {
-    top: 50px;
-    left: 80px;
+    top: 5px;
+    left: 70px;
 }
 
 .bee-name-1 {
-    top: 136px;
+    top: 100px;
     left: 70px;
 }
 
 .bee-name-2 {
-    top: 218px;
-    left: 40px;
+    top: 185px;
+    left: 70px;
 }
 
 .bee-name-3 {
-    top: 302px;
-    left: 10px;
-}
-
-.bee-name-0::after, .bee-name-1::after, .bee-name-2::after, .bee-name-3::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -14px;
-    transform: translateY(-50%);
-    border-style: solid;
-    border-width: 10px 0 10px 15px;
-    border-color: transparent transparent transparent #0dcaf0;
+    top: 270px;
+    left: 70px;
 }
 
 .bee-avatar-0, .bee-name-0 {
     transition: left 0.5s linear;
+}
+
+/* Move animation */
+
+@keyframes moveRight {
+    from {
+        left: 70px;
+    } to {
+        left: 1370px;
+    }
+}
+
+.move {
+    animation: moveRight 5s linear forwards;
 }

@@ -1,71 +1,39 @@
-// Di chuyển một
-document.getElementById("start-btn").addEventListener("click", function () {
-    // Phần tử cần di chuyển
-    const beeAvatar = document.getElementById("bee-avatar-1");
-    const beeName = document.getElementById("bee-name-1");
-
-    // Lấy khoảng cách từ điểm bắt đầu đến điểm kết thúc
-    const startPosition = parseInt(getComputedStyle(beeAvatar).left); // Vị trí bắt đầu
-    const endPosition = 1370; // Vị trí kết thúc (giống giá trị "left" của .race-end-img)
-
-    // Di chuyển phần tử
-    let currentPosition = startPosition;
-    const interval = setInterval(() => {
-        currentPosition += 10; // Tăng vị trí mỗi bước
-        beeAvatar.style.left = currentPosition + "px";
-        beeName.style.left = currentPosition - 140 + "px"; // Đồng bộ vị trí tên với avatar
-
-        // Dừng lại khi đến vị trí kết thúc
-        if (currentPosition === endPosition) {
-            clearInterval(interval);
-            alert("Win");
-        }
-    }, 50); // Mỗi bước cách nhau 50ms
-});
-
 // Di chuyển tất cả
-// document.getElementById("start-btn").addEventListener("click", function () {
-//     const bees = [
-//         { avatar: "bee-avatar-0", name: "bee-name-0" },
-//         { avatar: "bee-avatar-1", name: "bee-name-1" },
-//         { avatar: "bee-avatar-2", name: "bee-name-2" },
-//         { avatar: "bee-avatar-3", name: "bee-name-3" }
-//     ];
-    
-//     const endPosition = 1370; // Vị trí kết thúc
-//     let raceOver = false; // Biến cờ để kiểm tra khi cuộc đua kết thúc
-//     const intervals = []; // Lưu các interval để dừng lại khi cần
+document.getElementById("start-btn").addEventListener("click", function () {
+    const players = [
+        { avatarId: "bee-avatar-0", nameId: "bee-name-0" },
+        { avatarId: "bee-avatar-1", nameId: "bee-name-1" },
+        { avatarId: "bee-avatar-2", nameId: "bee-name-2" },
+        { avatarId: "bee-avatar-3", nameId: "bee-name-3" },
+    ];
 
-//     bees.forEach((bee) => {
-//         const beeAvatar = document.getElementById(bee.avatar);
-//         const beeName = document.getElementById(bee.name);
+    let raceOver = false;
 
-//         // Lấy vị trí bắt đầu
-//         const startPosition = parseInt(getComputedStyle(beeAvatar).left);
-//         let currentPosition = startPosition;
+    players.forEach((player) => {
+        const beeAvatar = document.getElementById(player.avatarId);
+        const beeName = document.getElementById(player.nameId);
 
-//         // Tốc độ ngẫu nhiên (giá trị từ 5 đến 15 px mỗi bước)
-//         const speed = Math.random() * 10 + 5;
+        const randomDuration = Math.random() * 5 + 3;
 
-//         // Di chuyển ong
-//         const interval = setInterval(() => {
-//             if (raceOver) {
-//                 clearInterval(interval);
-//                 return;
-//             }
+        beeAvatar.style.animationDuration = `${randomDuration}s`;
+        beeName.style.animationDuration = `${randomDuration}s`;
 
-//             currentPosition += speed; // Tăng vị trí theo tốc độ
-//             beeAvatar.style.left = currentPosition + "px";
-//             beeName.style.left = currentPosition - 140 + "px";
+        beeAvatar.classList.add("move");
+        beeName.classList.add("move");
 
-//             // Kiểm tra nếu ong về đích
-//             if (currentPosition >= endPosition) {
-//                 raceOver = true; // Đặt cờ kết thúc cuộc đua
-//                 clearInterval(intervals.forEach((id) => clearInterval(id))); // Dừng tất cả
-//                 alert(`${bee.name} đã chiến thắng!`); // Thông báo
-//             }
-//         }, 50); // Mỗi bước cách nhau 50ms
+        beeAvatar.addEventListener("animationend", function () {
+            if (!raceOver) {
+                raceOver = true;
+                alert(`${beeName.textContent} đã chiến thắng!`);
+                
+                players.forEach((p) => {
+                    const avatar = document.getElementById(p.avatarId);
+                    const name = document.getElementById(p.nameId);
 
-//         intervals.push(interval); // Lưu interval để dừng toàn bộ khi cần
-//     });
-// });
+                    avatar.style.animationPlayState = "paused";
+                    name.style.animationPlayState = "paused";
+                });
+            }
+        });
+    });
+});
