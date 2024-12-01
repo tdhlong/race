@@ -91,39 +91,21 @@ main {
     top: 10px;
 }
 
-.bee-avatar-0, .bee-avatar-1, .bee-avatar-2, .bee-avatar-3 {
+.bee-avatar {
     position: absolute;
     height: 100px;
+    left: 100px;
     transform: scaleX(-1);
     z-index: 101;
-}
-
-.bee-avatar-0 {
-    top: 20px;
-    left: 80px;
-}
-
-.bee-avatar-1 {
-    top: 110px;
-    left: 80px;
-}
-
-.bee-avatar-2 {
-    top: 195px;
-    left: 80px;
-}
-
-.bee-avatar-3 {
-    top: 282px;
-    left: 80px;
+    /* top: calc(0px + (60px * var(--index))); */
 }
 
 .bee-name-0, .bee-name-1, .bee-name-2, .bee-name-3 {
-    padding: 5px;
-    border-radius: 10px;
+    color: #000;
     position: absolute;
-    background-color: #0dcaf0;
-    color: #fff;
+    /* padding: 5px;
+    border-radius: 10px;
+    background-color: #0dcaf0; */
     font-size: 22px;
 
     line-height: 1.4;
@@ -161,9 +143,9 @@ main {
 
 @keyframes moveRight {
     from {
-        left: 70px;
+        left: 100px;
     } to {
-        left: 1370px;
+        left: 1340px;
     }
 }
 
