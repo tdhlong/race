@@ -23,11 +23,17 @@ document.addEventListener("DOMContentLoaded", positionPlayers);
 
 // Khi nhấn nút bắt đầu
 document.getElementById("start-btn").addEventListener("click", function () {
+
     const playerAvatars = document.querySelectorAll(".participants img");
     const playerNames = document.querySelectorAll(".participants span");
+    const finishLine = document.querySelector(".race-end-img");
 
+    const body = document.body; 
+    body.classList.add("moveScreen"); 
+    const main = document.querySelector("main"); 
+    main.classList.add("main-move");
+    
     let raceOver = false;
-
     // Tạo danh sách người chơi dựa trên số lượng avatar
     const players = Array.from({ length: playerAvatars.length }, (_, index) => ({
         avatar: playerAvatars[index],
@@ -35,9 +41,7 @@ document.getElementById("start-btn").addEventListener("click", function () {
     }));
 
     players.forEach((player) => {
-        const randomDuration = Math.random() * 5 + 3; // Tạo thời lượng ngẫu nhiên từ 3 đến 8 giây
-
-        // Gán cùng thời lượng animation cho avatar và tên
+        const randomDuration = Math.random() * 5 + 5;
         player.avatar.style.animationDuration = `${randomDuration}s`;
         player.name.style.animationDuration = `${randomDuration}s`;
 
@@ -56,6 +60,8 @@ document.getElementById("start-btn").addEventListener("click", function () {
                     p.avatar.style.animationPlayState = "paused";
                     p.name.style.animationPlayState = "paused";
                 });
+                finishLine.style.animationPlayState = "paused";
+                
             }
         });
     });

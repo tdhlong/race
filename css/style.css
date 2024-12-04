@@ -80,7 +80,7 @@ main {
 .race-start-img {
     position: absolute;
     height: 505px;
-    left: 200px;
+    left: 266px;
     top: 10px;
 }
 
@@ -94,7 +94,7 @@ main {
 .bee-avatar {
     position: absolute;
     height: 100px;
-    left: 100px;
+    left: 170px;
     transform: scaleX(-1);
     z-index: 101;
 }
@@ -107,13 +107,13 @@ main {
     background-color: #0dcaf0;
     font-size: 22px;
 
-    top: 30px;
-    left: 0px;
+    left: 40px;
 
     line-height: 1.4;
     word-wrap: break-word;
     white-space: normal;
-    max-width: 130px;
+    min-width: 140px;
+    max-width: 140px;
     z-index: 100;
 }
 
@@ -197,7 +197,7 @@ main {
 /* Hiệu ứng di chuyển */
 @keyframes moveAvatar {
     from {
-        left: 100px;
+        left: 170px;
     } to {
         left: 1340px;
     }
@@ -205,9 +205,9 @@ main {
 
 @keyframes moveName {
     from {
-        left: 0;
+        left: 40px;
     } to {
-        left: 1240px;
+        left: 1200px;
     }
 }
 
@@ -217,4 +217,43 @@ main {
 
 .moveName {
     animation: moveName 5s linear forwards;
+}
+
+/* Hiệu ứng di chuyển vạch đích */
+@keyframes moveFinishLine {
+    from {
+        left: 1300px;
+    } to {
+        left: 1600px;
+    }
+}
+
+.moveFinishLine {
+    animation: moveFinishLine 5s linear forwards;
+}
+
+/* Hiệu ứng di chuyển màn hình */
+@keyframes moveScreen {
+    from {
+        transform: translateX(0);
+    } to {
+        transform: translateX(-300px);
+    }
+}
+
+.moveScreen {
+    animation: moveScreen 5s linear forwards;
+}
+
+/* Hiệu ứng di chuyển hình nền */
+@keyframes moveBackground {
+    from {
+        background-position: 0px 0px;
+    } to {
+        background-position: -600px 0;
+    }
+}
+
+.main-move {
+    animation: moveBackground 5s linear forwards;
 }
