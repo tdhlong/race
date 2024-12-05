@@ -18,19 +18,32 @@ function positionPlayers() {
     });
 }
 
+function displayWinner(winnerName) {
+    const winnerImage = document.querySelector(".race-winner-img");
+    const winner = document.querySelector(".winner");
+    
+    // Hiện hình ảnh thắng cuộc
+    winnerImage.style.display = "block";
+
+    // Đặt tên người chiến thắng
+    winner.textContent = winnerName;
+}
+
 // Gán vị trí khi DOM tải xong
 document.addEventListener("DOMContentLoaded", positionPlayers);
 
 // Khi nhấn nút bắt đầu
 document.getElementById("start-btn").addEventListener("click", function () {
 
+    const main = document.querySelector("main"); 
     const playerAvatars = document.querySelectorAll(".participants img");
     const playerNames = document.querySelectorAll(".participants span");
     const finishLine = document.querySelector(".race-end-img");
+    const startLine = document.querySelector(".race-start-img");
+    const jsConfetti = new JSConfetti();
 
-    const body = document.body; 
-    body.classList.add("moveScreen"); 
-    const main = document.querySelector("main"); 
+    startLine.classList.add("moveStartingLine");
+    finishLine.classList.add("moveFinishLine");
     main.classList.add("main-move");
     
     let raceOver = false;
@@ -41,7 +54,7 @@ document.getElementById("start-btn").addEventListener("click", function () {
     }));
 
     players.forEach((player) => {
-        const randomDuration = Math.random() * 5 + 5;
+        const randomDuration = Math.random() * 5 + 8;
         player.avatar.style.animationDuration = `${randomDuration}s`;
         player.name.style.animationDuration = `${randomDuration}s`;
 
@@ -53,7 +66,13 @@ document.getElementById("start-btn").addEventListener("click", function () {
         player.avatar.addEventListener("animationend", function () {
             if (!raceOver) {
                 raceOver = true;
-                alert(`${player.name.textContent} đã chiến thắng!`);
+                displayWinner(player.name.textContent);
+                jsConfetti.addConfetti();
+
+                // Sau 2 giây, kích hoạt pháo giấy lần thứ hai
+                setTimeout(() => {
+                    jsConfetti.addConfetti();
+                }, 2000);
 
                 // Dừng tất cả các avatar và tên
                 players.forEach((p) => {

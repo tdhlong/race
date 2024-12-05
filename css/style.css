@@ -12,6 +12,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
+    overflow-x: hidden;
 }
 
 /* Phần button, select */
@@ -43,6 +44,17 @@ select {
 
 .btn:hover {
     background-color: #c80533;
+}
+
+/* Hiệu ứng hoa giấy */
+.confetti {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    pointer-events: none;
 }
 
 /* Phần Header */
@@ -87,8 +99,37 @@ main {
 .race-end-img {
     position: absolute;
     height: 505px;
-    left: 1300px;
+    left: 1600px;
     top: 10px;
+}
+
+.race-winner-img {
+    display: none;
+    position: absolute;
+    width: 649px;
+    left: 20px;
+    top: 198.478px;
+    z-index: 111;
+}
+
+.winner-display {
+    width: 300px;
+    height: 148.858px;
+    left: 200px;
+    top: 335px;
+    position: absolute;
+    z-index: 112;
+    font-size: 40px;
+    line-height: 148.858px;
+    text-align: center;
+    color: rgb(232, 6, 60);
+    font-weight: 700;
+}
+
+.winner {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
 }
 
 .bee-avatar {
@@ -222,27 +263,27 @@ main {
 /* Hiệu ứng di chuyển vạch đích */
 @keyframes moveFinishLine {
     from {
-        left: 1300px;
-    } to {
         left: 1600px;
+    } to {
+        left: 1300px;
     }
 }
 
 .moveFinishLine {
-    animation: moveFinishLine 5s linear forwards;
+    animation: moveFinishLine 7s linear forwards;
 }
 
-/* Hiệu ứng di chuyển màn hình */
-@keyframes moveScreen {
+/* Hiệu ứng di chuyển vạch bắt đầu */
+@keyframes moveStartingLine {
     from {
-        transform: translateX(0);
+        left: 266px;
     } to {
-        transform: translateX(-300px);
+        left: -40px;
     }
 }
 
-.moveScreen {
-    animation: moveScreen 5s linear forwards;
+.moveStartingLine {
+    animation: moveStartingLine 5s linear forwards;
 }
 
 /* Hiệu ứng di chuyển hình nền */
@@ -255,5 +296,5 @@ main {
 }
 
 .main-move {
-    animation: moveBackground 5s linear forwards;
+    animation: moveBackground 7s linear forwards;
 }
