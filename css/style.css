@@ -234,7 +234,6 @@ main {
     }
 }
 
-
 /* Hiệu ứng di chuyển */
 @keyframes moveAvatar {
     from {
@@ -270,7 +269,7 @@ main {
 }
 
 .moveFinishLine {
-    animation: moveFinishLine 7s linear forwards;
+    animation: moveFinishLine 9s linear forwards;
 }
 
 /* Hiệu ứng di chuyển vạch bắt đầu */
@@ -296,5 +295,5 @@ main {
 }
 
 .main-move {
-    animation: moveBackground 7s linear forwards;
+    animation: moveBackground 9s linear forwards;
 }
