@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const participants = document.querySelector(".participants");
     const jsConfetti = new JSConfetti();
     let raceOver = false;
+    let speedIntervalId = null;
+
+    const players = [];
 
     // Hàm gán vị trí người chơi
     function positionPlayers() {
@@ -15,8 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const names = participants.querySelectorAll("span");
         const gap = trackHeight / avatars.length;
 
-        avatars.forEach((avatar, i) => (avatar.style.top = `${i * gap}px`));
-        names.forEach((name, i) => (name.style.top = `${i * gap + 25}px`));
+        avatars.forEach((avatar, i) => {
+            const name = names[i]; // Lấy tên tương ứng
+            avatar.style.top = `${i * gap}px`;
+            name.style.top = `${i * gap + 25}px`; // Gán vị trí cho tên
+            players.push({
+                avatar,
+                name,
+                speed: Math.random() * 0.05 + 0.02, // Tốc độ ban đầu
+            });
+        });
     }
 
     // Hiển thị người chiến thắng
@@ -27,41 +38,58 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => jsConfetti.addConfetti(), 2000);
     }
 
-    // Khởi động cuộc đua
-    function startRace() {
-        raceOver = false;
-        startLine.classList.add("moveStartingLine");
-        finishLine.classList.add("moveFinishLine");
-        main.classList.add("main-move");
-
-        const players = Array.from(participants.querySelectorAll("img")).map(
-            (avatar, index) => ({
-                avatar,
-                name: participants.querySelectorAll("span")[index],
-            })
-        );
-
+    // Hàm cập nhật vị trí người chơi
+    function updatePlayerPositions() {
         players.forEach((player) => {
-            const randomDuration = Math.random() * 5 + 9;
-            ["avatar", "name"].forEach((key) =>
-                player[key].classList.add(`move${key.charAt(0).toUpperCase() + key.slice(1)}`)
-            );
-            player.avatar.style.animationDuration = `${randomDuration}s`;
-            player.name.style.animationDuration = `${randomDuration}s`;
+            if (!raceOver) {
+                player.position += player.speed;
+                player.avatar.style.left = `${player.position}%`;
+                player.name.style.left = `${player.position - 9}%`;
 
-            player.avatar.addEventListener("animationend", () => {
-                if (!raceOver) {
+                // Kiểm tra xem đã vượt qua vạch đích chưa
+                if (player.position >= 88 && !raceOver) {
                     raceOver = true;
                     displayWinner(player.name.textContent);
-                    players.forEach((p) =>
-                        ["avatar", "name"].forEach((key) =>
-                            p[key].style.animationPlayState = "paused"
-                        )
-                    );
-                    finishLine.style.animationPlayState = "paused";
+                    clearInterval(speedIntervalId);
                 }
-            });
+            }
         });
+
+        if (!raceOver) {
+            requestAnimationFrame(updatePlayerPositions);
+        }
+    }
+
+    // Hàm thay đổi tốc độ ngẫu nhiên
+    function randomizePlayerSpeeds() {
+        players.forEach((player) => {
+            player.speed = Math.random() * 0.05 + 0.02; // Tốc độ mới
+        });
+    }
+
+    // Khởi động cuộc đua
+    function startRace() {
+        main.classList.add("main-move");
+        startLine.classList.add("moveStartingLine");
+        finishLine.classList.add("moveFinishLine");
+        raceOver = false;
+
+        // Reset vị trí ban đầu
+        players.forEach((player) => {
+            player.position = 11.5;
+            player.speed = Math.random() * 0.05 + 0.02; // Giảm tốc độ xuống
+            player.avatar.style.left = "11.5%";
+        });
+
+        // Thay đổi tốc độ mỗi 2 giây
+        speedIntervalId = setInterval(() => {
+            if (!raceOver) {
+                randomizePlayerSpeeds();
+            }
+        }, 2000);
+
+        // Bắt đầu cập nhật vị trí
+        requestAnimationFrame(updatePlayerPositions);
     }
 
     // Xử lý lưu danh sách người chơi
@@ -72,11 +100,16 @@ document.addEventListener("DOMContentLoaded", () => {
             .map((name) => name.trim())
             .filter((name) => name);
 
+        if (playerNames.length === 0) {
+            alert("Vui lòng thêm ít nhất một người chơi!");
+            return;
+        }
+
         participants.innerHTML = playerNames
             .map(
                 (name, i) => `
-            <img class="bee-avatar bee-avatar-${i}" src="./gif/bee-fly.gif">
-            <span class="bee-name bee-name-${i}">${name}</span>`
+                <img class="bee-avatar bee-avatar-${i}" src="./gif/bee-fly.gif" alt="${name}">
+                <span class="bee-name bee-name-${i}">${name}</span>`
             )
             .join("");
 
@@ -84,12 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "none";
     }
 
-    // Sự kiện
+    // Gán sự kiện
     document.getElementById("start-btn").addEventListener("click", startRace);
     document.querySelector(".list-btn").addEventListener("click", () => (modal.style.display = "block"));
     document.querySelector(".cancel").addEventListener("click", () => (modal.style.display = "none"));
     window.addEventListener("click", (e) => e.target === modal && (modal.style.display = "none"));
     document.querySelector(".save").addEventListener("click", savePlayerList);
 
+    // Khởi tạo vị trí ban đầu
     positionPlayers();
 });
