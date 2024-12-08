@@ -132,16 +132,6 @@ main {
     line-height: 1;
 }
 
-.avatar {
-    position: absolute;
-    left: 170px;
-    transform: scaleX(-1);
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    z-index: 101;
-}
-
 .name {
     color: #fff;
     position: absolute;
@@ -158,6 +148,16 @@ main {
     min-width: 140px;
     max-width: 140px;
     z-index: 100;
+}
+
+.avatar {
+    position: absolute;
+    left: 170px;
+    transform: scaleX(-1);
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    z-index: 101;
 }
 
 /* Phần Modal */
@@ -298,4 +298,14 @@ main {
 
 .main-move {
     animation: moveBackground 10s linear forwards;
+}
+
+.bus-avatar {
+    width: 85px;
+    height: 85px;
+    left: 180px;
+}
+
+.bus-name {
+    margin-left: 30px;
 }

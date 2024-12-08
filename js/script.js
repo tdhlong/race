@@ -13,49 +13,34 @@ document.addEventListener("DOMContentLoaded", () => {
     let speedIntervalId = null;
 
     const players = [];
+    const avatarSrcs = {
+        bike: "./gif/bike.gif",
+        bus: "./gif/bus.gif",
+        bee: "./gif/bee.gif"
+    };
 
+    // Cập nhật hình ảnh và kiểu của avatar
     function updateAvatars() {
         const characterType = selectCharacter.value;
-        const names = participants.querySelectorAll("span");
-    
-        let avatarSrc = "./gif/bee.gif";
-        let shouldFlip = false;
-        let resize = false;
-    
-        if (characterType === "bike") {
-            avatarSrc = "./gif/bike.gif";
-        } else if (characterType === "bus") {
-            avatarSrc = "./gif/bus.gif";
-            shouldFlip = true;
-            resize = true;
-        } else if (characterType === "bee") {
-            shouldFlip = true; // Bật cờ lật ảnh
-        }
-    
+
+        const avatarSrc = avatarSrcs[characterType] || avatarSrcs.bee;
+        const shouldFlip = characterType === "bee" || characterType === "bus";
+        const resize = characterType === "bus";
+
         // Cập nhật tất cả avatar
         const avatars = participants.querySelectorAll(".avatar");
-        avatars.forEach((avatar, i) => {
-            const name = names[i];
+        avatars.forEach((avatar) => {
             avatar.src = avatarSrc;
-    
-            // Thêm hoặc xóa thuộc tính lật ảnh
-            if (shouldFlip) {
-                avatar.style.transform = "scaleX(-1)";
-            } else {
-                avatar.style.transform = "scaleX(1)";
-            }
+            avatar.style.transform = shouldFlip ? "scaleX(-1)" : "scaleX(1)";
 
-            // Sửa kích thước cho bus
+            // Cập nhật vị trí và kích thước
             if (resize) {
-                avatar.style.width = "85px";
-                avatar.style.height = "85px";
-                avatar.style.left = "180px";
-                name.style.left = "30px";
+                avatar.classList.add("bus-avatar"); // Thêm lớp CSS cho bus
+            } else {
+                avatar.classList.remove("bus-avatar"); // Gỡ lớp CSS cho những avatar khác
             }
         });
     }
-    
-    
 
     // Hàm gán vị trí người chơi
     function positionPlayers() {
@@ -65,13 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const gap = trackHeight / avatars.length;
 
         avatars.forEach((avatar, i) => {
-            const name = names[i]; // Lấy tên tương ứng
+            const name = names[i];
             avatar.style.top = `${i * gap}px`;
-            name.style.top = `${i * gap + 25}px`; // Gán vị trí cho tên
+            name.style.top = `${i * gap + 25}px`;
             players.push({
                 avatar,
                 name,
-                speed: Math.random() * 0.05 + 0.02, // Tốc độ ban đầu
+                speed: Math.random() * 0.05 + 0.02,
+                position: 11.5,
             });
         });
     }
@@ -81,6 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".race-winner-img").style.display = "block";
         document.querySelector(".winner").textContent = name;
         jsConfetti.addConfetti();
+
+        // Dừng nhạc dần khi có người chiến thắng
+        fadeOutAudio(raceMusic);
     }
 
     // Hàm cập nhật vị trí người chơi
@@ -91,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 player.avatar.style.left = `${player.position}%`;
                 player.name.style.left = `${player.position - 9}%`;
 
-                // Kiểm tra xem đã vượt qua vạch đích chưa
                 if (player.position >= 88 && !raceOver) {
                     raceOver = true;
                     clapSound.play();
@@ -109,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hàm thay đổi tốc độ ngẫu nhiên
     function randomizePlayerSpeeds() {
         players.forEach((player) => {
-            player.speed = Math.random() * 0.05 + 0.02; // Tốc độ mới
+            player.speed = Math.random() * 0.05 + 0.02;
         });
     }
 
@@ -123,24 +111,21 @@ document.addEventListener("DOMContentLoaded", () => {
         // Bật nhạc
         raceMusic.play();
 
-        // Reset vị trí ban đầu
         players.forEach((player) => {
             player.position = 11.5;
-            player.speed = Math.random() * 0.05 + 0.02; // Giảm tốc độ xuống
+            player.speed = Math.random() * 0.05 + 0.02;
             player.avatar.style.left = "11.5%";
             if (selectCharacter.value === "bus") {
                 player.avatar.style.marginLeft = "10px";
             }
         });
 
-        // Thay đổi tốc độ mỗi 2 giây
         speedIntervalId = setInterval(() => {
             if (!raceOver) {
                 randomizePlayerSpeeds();
             }
         }, 2000);
 
-        // Bắt đầu cập nhật vị trí
         requestAnimationFrame(updatePlayerPositions);
     }
 
@@ -157,28 +142,29 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Lấy giá trị từ dropdown
         const characterType = selectCharacter.value;
-        let additionalStyle = "";
-
-        // Xác định URL ảnh dựa trên lựa chọn
-        if (characterType === "bike") {
-            avatarSrc = "./gif/bike.gif";
-            additionalStyle = "transform: scaleX(1);";
-        } else if (characterType === "bus") {
-            avatarSrc = "./gif/bus.gif";
-            additionalStyle = "width: 85px; height: 85px; left: 180px;";
-        } else if (characterType === "bee") {
-            avatarSrc = "./gif/bee.gif";
-        }
+        const avatarSrc = avatarSrcs[characterType] || avatarSrcs.bee;
 
         participants.innerHTML = playerNames
             .map(
                 (name, i) => `
-                <img class="avatar avatar-${i}" src="${avatarSrc}" style="${additionalStyle}" alt="${name}">
-                <span class="name name-${i}" style="${characterType === "bus" ? "left: 30px;" : ""}">${name}</span>`
+                <img class="avatar avatar-${i} ${characterType}-avatar" src="${avatarSrc}" alt="${name}">
+                <span class="name name-${i}">${name}</span>`
             )
             .join("");
+
+        // Điều chỉnh các thuộc tính cụ thể sau khi thêm danh sách
+        const avatars = participants.querySelectorAll(".avatar");
+        avatars.forEach((avatar) => {
+            avatar.classList.remove("bee-avatar", "bike-avatar", "bus-avatar");
+            avatar.classList.add(`${characterType}-avatar`);
+
+            if (characterType === "bike") {
+                avatar.style.transform = "scaleX(1)";
+            } else if (characterType === "bee" || characterType === "bus") {
+                avatar.style.transform = "scaleX(-1)";
+            }
+        });
 
         positionPlayers();
         modal.style.display = "none";
@@ -190,9 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".cancel").addEventListener("click", () => (modal.style.display = "none"));
     window.addEventListener("click", (e) => e.target === modal && (modal.style.display = "none"));
     document.querySelector(".save").addEventListener("click", savePlayerList);
-    document.getElementById("restart-btn").addEventListener("click", () => {
-        location.reload(); // Tải lại trang
-    });
+    document.getElementById("restart-btn").addEventListener("click", () => location.reload());
     selectCharacter.addEventListener("change", updateAvatars);
 
     // Khởi tạo vị trí ban đầu
