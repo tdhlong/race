@@ -4,12 +4,58 @@ document.addEventListener("DOMContentLoaded", () => {
     const startLine = document.querySelector(".race-start-img");
     const finishLine = document.querySelector(".race-end-img");
     const modal = document.getElementById("players-modal");
+    const selectCharacter = document.querySelector(".select-character");
     const participants = document.querySelector(".participants");
+    const raceMusic = document.querySelector(".race-music");
+    const clapSound = document.querySelector(".race-clap");
     const jsConfetti = new JSConfetti();
     let raceOver = false;
     let speedIntervalId = null;
 
     const players = [];
+
+    function updateAvatars() {
+        const characterType = selectCharacter.value;
+        const names = participants.querySelectorAll("span");
+    
+        let avatarSrc = "./gif/bee.gif";
+        let shouldFlip = false;
+        let resize = false;
+    
+        if (characterType === "bike") {
+            avatarSrc = "./gif/bike.gif";
+        } else if (characterType === "bus") {
+            avatarSrc = "./gif/bus.gif";
+            shouldFlip = true;
+            resize = true;
+        } else if (characterType === "bee") {
+            shouldFlip = true; // Bật cờ lật ảnh
+        }
+    
+        // Cập nhật tất cả avatar
+        const avatars = participants.querySelectorAll(".avatar");
+        avatars.forEach((avatar, i) => {
+            const name = names[i];
+            avatar.src = avatarSrc;
+    
+            // Thêm hoặc xóa thuộc tính lật ảnh
+            if (shouldFlip) {
+                avatar.style.transform = "scaleX(-1)";
+            } else {
+                avatar.style.transform = "scaleX(1)";
+            }
+
+            // Sửa kích thước cho bus
+            if (resize) {
+                avatar.style.width = "85px";
+                avatar.style.height = "85px";
+                avatar.style.left = "180px";
+                name.style.left = "30px";
+            }
+        });
+    }
+    
+    
 
     // Hàm gán vị trí người chơi
     function positionPlayers() {
@@ -35,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".race-winner-img").style.display = "block";
         document.querySelector(".winner").textContent = name;
         jsConfetti.addConfetti();
-        setTimeout(() => jsConfetti.addConfetti(), 2000);
     }
 
     // Hàm cập nhật vị trí người chơi
@@ -49,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Kiểm tra xem đã vượt qua vạch đích chưa
                 if (player.position >= 88 && !raceOver) {
                     raceOver = true;
+                    clapSound.play();
                     displayWinner(player.name.textContent);
                     clearInterval(speedIntervalId);
                 }
@@ -74,11 +120,17 @@ document.addEventListener("DOMContentLoaded", () => {
         finishLine.classList.add("moveFinishLine");
         raceOver = false;
 
+        // Bật nhạc
+        raceMusic.play();
+
         // Reset vị trí ban đầu
         players.forEach((player) => {
             player.position = 11.5;
             player.speed = Math.random() * 0.05 + 0.02; // Giảm tốc độ xuống
             player.avatar.style.left = "11.5%";
+            if (selectCharacter.value === "bus") {
+                player.avatar.style.marginLeft = "10px";
+            }
         });
 
         // Thay đổi tốc độ mỗi 2 giây
@@ -105,11 +157,26 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Lấy giá trị từ dropdown
+        const characterType = selectCharacter.value;
+        let additionalStyle = "";
+
+        // Xác định URL ảnh dựa trên lựa chọn
+        if (characterType === "bike") {
+            avatarSrc = "./gif/bike.gif";
+            additionalStyle = "transform: scaleX(1);";
+        } else if (characterType === "bus") {
+            avatarSrc = "./gif/bus.gif";
+            additionalStyle = "width: 85px; height: 85px; left: 180px;";
+        } else if (characterType === "bee") {
+            avatarSrc = "./gif/bee.gif";
+        }
+
         participants.innerHTML = playerNames
             .map(
                 (name, i) => `
-                <img class="bee-avatar bee-avatar-${i}" src="./gif/bee-fly.gif" alt="${name}">
-                <span class="bee-name bee-name-${i}">${name}</span>`
+                <img class="avatar avatar-${i}" src="${avatarSrc}" style="${additionalStyle}" alt="${name}">
+                <span class="name name-${i}" style="${characterType === "bus" ? "left: 30px;" : ""}">${name}</span>`
             )
             .join("");
 
@@ -123,6 +190,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".cancel").addEventListener("click", () => (modal.style.display = "none"));
     window.addEventListener("click", (e) => e.target === modal && (modal.style.display = "none"));
     document.querySelector(".save").addEventListener("click", savePlayerList);
+    document.getElementById("restart-btn").addEventListener("click", () => {
+        location.reload(); // Tải lại trang
+    });
+    selectCharacter.addEventListener("change", updateAvatars);
 
     // Khởi tạo vị trí ban đầu
     positionPlayers();

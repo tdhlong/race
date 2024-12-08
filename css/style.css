@@ -132,15 +132,17 @@ main {
     line-height: 1;
 }
 
-.bee-avatar {
+.avatar {
     position: absolute;
-    height: 100px;
     left: 170px;
     transform: scaleX(-1);
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
     z-index: 101;
 }
 
-.bee-name {
+.name {
     color: #fff;
     position: absolute;
     padding: 5px;

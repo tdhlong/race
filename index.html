@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet" />
     <title>Đường đua - Quốc tế Á Châu</title>
 </head>
@@ -17,12 +18,13 @@
             <img class="header-logo" src="./img/logo.png" alt="" />
             <div class="header-buttons">
                 <select class="select-character">
-                    <option>Ong vàng</option>
-                    <option>Chim</option>
-                    <option>Máy bay</option>
+                    <option value="bee">Ong vàng</option>
+                    <option value="bike">Xe đạp</option>
+                    <option value="bus">Xe buýt</option>
                 </select>
                 <button class="list-btn">Danh sách</button>
                 <button class="btn" id="start-btn">Bắt đầu</button>
+                <button id="restart-btn"><i class="fa-solid fa-rotate-left"></i></button>
             </div>
         </div>
     </header>
@@ -31,20 +33,20 @@
     <main>
         <!-- Danh sách người chơi -->
         <div class="participants">
-            <span class="bee-name">Người chơi 1</span>
-            <img class="bee-avatar" src="./gif/bee-fly.gif" />
+            <span class="name">Người chơi 1</span>
+            <img class="avatar" src="./gif/bee.gif" />
 
-            <span class="bee-name">Người chơi 2</span>
-            <img class="bee-avatar" src="./gif/bee-fly.gif" >
+            <span class="name">Người chơi 2</span>
+            <img class="avatar" src="./gif/bee.gif" >
 
-            <span class="bee-name">Người chơi 3</span>
-            <img class="bee-avatar" src="./gif/bee-fly.gif" >
+            <span class="name">Người chơi 3</span>
+            <img class="avatar" src="./gif/bee.gif" >
 
-            <span class="bee-name">Người chơi 4</span>
-            <img class="bee-avatar" src="./gif/bee-fly.gif" >
+            <span class="name">Người chơi 4</span>
+            <img class="avatar" src="./gif/bee.gif" >
 
-            <span class="bee-name">Người chơi 5</span>
-            <img class="bee-avatar" src="./gif/bee-fly.gif" >
+            <span class="name">Người chơi 5</span>
+            <img class="avatar" src="./gif/bee.gif" >
         </div>
 
         <!-- Đường bắt đầu -->
@@ -73,6 +75,10 @@
         </div>
         <img class="race-winner-img" src="./img/board2.png" />
     </main>
+
+    <!-- Phần Audio -->
+    <audio class="race-music" src="./sfx/race-music.mp3"></audio>
+    <audio class="race-clap" src="./sfx/clap.mp3"></audio>
 
     <!-- Javascript -->
     <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
