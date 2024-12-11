@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const raceMusic = document.querySelector(".race-music");
     const clapSound = document.querySelector(".race-clap");
     const jsConfetti = new JSConfetti();
+    const winnerImage = document.querySelector(".race-winner-img");
+    const winnerName = document.querySelector(".winner");
     let raceOver = false;
     let speedIntervalId = null;
 
@@ -64,12 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Hiển thị người chiến thắng
     function displayWinner(name) {
-        document.querySelector(".race-winner-img").style.display = "block";
-        document.querySelector(".winner").textContent = name;
+        winnerImage.style.display = "block";
+        winnerName.textContent = name;
         jsConfetti.addConfetti();
 
-        // Dừng nhạc dần khi có người chiến thắng
-        fadeOutAudio(raceMusic);
     }
 
     // Hàm cập nhật vị trí người chơi
@@ -103,10 +103,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Khởi động cuộc đua
     function startRace() {
-        main.classList.add("main-move");
-        startLine.classList.add("moveStartingLine");
-        finishLine.classList.add("moveFinishLine");
         raceOver = false;
+        winnerImage.style.display = "none";
+        winnerName.textContent = "";
+
+        main.classList.remove("main-move");
+        startLine.classList.remove("moveStartingLine");
+        finishLine.classList.remove("moveFinishLine");
+
+        // Đảm bảo các lớp được thêm lại sau một khoảng thời gian ngắn
+        setTimeout(() => {
+            main.classList.add("main-move");
+            startLine.classList.add("moveStartingLine");
+            finishLine.classList.add("moveFinishLine");
+        }, 50); // Khoảng thời gian ngắn để trình duyệt nhận diện thay đổi
 
         // Bật nhạc
         raceMusic.play();
@@ -153,6 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
             )
             .join("");
 
+            players.length = 0;
+
         // Điều chỉnh các thuộc tính cụ thể sau khi thêm danh sách
         const avatars = participants.querySelectorAll(".avatar");
         avatars.forEach((avatar) => {
@@ -165,6 +177,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 avatar.style.transform = "scaleX(-1)";
             }
         });
+
+        winnerImage.style.display = "none";
+        winnerName.textContent = "";
+
+        main.classList.remove("main-move");
+        startLine.classList.remove("moveStartingLine");
+        finishLine.classList.remove("moveFinishLine");
 
         positionPlayers();
         modal.style.display = "none";

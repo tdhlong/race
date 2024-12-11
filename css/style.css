@@ -261,6 +261,19 @@ main {
     animation: moveName 5s linear forwards;
 }
 
+/* Hiệu ứng di chuyển vạch bắt đầu */
+@keyframes moveStartingLine {
+    from {
+        left: 266px;
+    } to {
+        left: -40px;
+    }
+}
+
+.moveStartingLine {
+    animation: moveStartingLine 5s linear forwards;
+}
+
 /* Hiệu ứng di chuyển vạch đích */
 @keyframes moveFinishLine {
     from {
@@ -274,18 +287,6 @@ main {
     animation: moveFinishLine 9s linear forwards;
 }
 
-/* Hiệu ứng di chuyển vạch bắt đầu */
-@keyframes moveStartingLine {
-    from {
-        left: 266px;
-    } to {
-        left: -40px;
-    }
-}
-
-.moveStartingLine {
-    animation: moveStartingLine 5s linear forwards;
-}
 
 /* Hiệu ứng di chuyển hình nền */
 @keyframes moveBackground {
