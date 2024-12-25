@@ -92,7 +92,7 @@ main {
 .race-start-img {
     position: absolute;
     height: 505px;
-    left: 266px;
+    left: 354px;
     top: 10px;
 }
 
@@ -129,30 +129,28 @@ main {
 .winner {
     display: inline-block;
     vertical-align: middle;
-    line-height: 1;
+    line-height: 1.2;
 }
 
 .name {
     color: #fff;
     position: absolute;
-    padding: 5px;
+    padding: 0 5px;
     border-radius: 10px;
     background-color: #0dcaf0;
     font-size: 22px;
 
-    left: 40px;
+    left: calc(170px - 0px);
 
     line-height: 1.4;
     word-wrap: break-word;
     white-space: normal;
-    min-width: 140px;
-    max-width: 140px;
     z-index: 100;
 }
 
 .avatar {
     position: absolute;
-    left: 170px;
+    left: 254px;
     transform: scaleX(-1);
     width: 100px;
     height: 100px;
@@ -239,7 +237,7 @@ main {
 /* Hiệu ứng di chuyển */
 @keyframes moveAvatar {
     from {
-        left: 170px;
+        left: 254px;
     } to {
         left: 1340px;
     }
@@ -264,7 +262,8 @@ main {
 /* Hiệu ứng di chuyển vạch bắt đầu */
 @keyframes moveStartingLine {
     from {
-        left: 266px;
+        /* left: 266px; */
+        left: 354px;
     } to {
         left: -40px;
     }
@@ -277,7 +276,7 @@ main {
 /* Hiệu ứng di chuyển vạch đích */
 @keyframes moveFinishLine {
     from {
-        left: 1600px;
+        left: 1688px;
     } to {
         left: 1300px;
     }
@@ -286,7 +285,6 @@ main {
 .moveFinishLine {
     animation: moveFinishLine 9s linear forwards;
 }
-
 
 /* Hiệu ứng di chuyển hình nền */
 @keyframes moveBackground {
@@ -304,7 +302,7 @@ main {
 .bus-avatar {
     width: 85px;
     height: 85px;
-    left: 180px;
+    left: 254px;
 }
 
 .bus-name {

@@ -53,13 +53,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         avatars.forEach((avatar, i) => {
             const name = names[i];
+            const nameWidth = name.offsetWidth;
+            const newLeft = `calc(254px - ${nameWidth}px)`;
             avatar.style.top = `${i * gap}px`;
-            name.style.top = `${i * gap + 25}px`;
+            name.style.top = `${i * gap + 30}px`;
+            name.style.left = newLeft;
             players.push({
                 avatar,
                 name,
                 speed: Math.random() * 0.05 + 0.02,
-                position: 11.5,
+                position: 16.5,
             });
         });
     }
@@ -78,8 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!raceOver) {
                 player.position += player.speed;
                 player.avatar.style.left = `${player.position}%`;
-                player.name.style.left = `${player.position - 9}%`;
-
+    
+                // Cập nhật left của name dựa trên position và width thực tế
+                const nameWidth = player.name.offsetWidth;
+                player.name.style.left = `calc(${player.position}% - ${nameWidth}px)`;
+    
                 if (player.position >= 88 && !raceOver) {
                     raceOver = true;
                     clapSound.play();
@@ -88,11 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
-
+    
         if (!raceOver) {
             requestAnimationFrame(updatePlayerPositions);
         }
     }
+    
 
     // Hàm thay đổi tốc độ ngẫu nhiên
     function randomizePlayerSpeeds() {
@@ -106,38 +113,42 @@ document.addEventListener("DOMContentLoaded", () => {
         raceOver = false;
         winnerImage.style.display = "none";
         winnerName.textContent = "";
-
+    
         main.classList.remove("main-move");
         startLine.classList.remove("moveStartingLine");
         finishLine.classList.remove("moveFinishLine");
-
-        // Đảm bảo các lớp được thêm lại sau một khoảng thời gian ngắn
+    
         setTimeout(() => {
             main.classList.add("main-move");
             startLine.classList.add("moveStartingLine");
             finishLine.classList.add("moveFinishLine");
-        }, 50); // Khoảng thời gian ngắn để trình duyệt nhận diện thay đổi
-
-        // Bật nhạc
+        }, 50);
+    
         raceMusic.play();
-
+    
         players.forEach((player) => {
-            player.position = 11.5;
+            player.position = 16.5;
             player.speed = Math.random() * 0.05 + 0.02;
-            player.avatar.style.left = "11.5%";
+            player.avatar.style.left = "16.5%";
+    
+            // Đặt lại vị trí left cho name
+            const nameWidth = player.name.offsetWidth;
+            player.name.style.left = `calc(16.5% - ${nameWidth}px)`;
+    
             if (selectCharacter.value === "bus") {
                 player.avatar.style.marginLeft = "10px";
             }
         });
-
+    
         speedIntervalId = setInterval(() => {
             if (!raceOver) {
                 randomizePlayerSpeeds();
             }
         }, 2000);
-
+    
         requestAnimationFrame(updatePlayerPositions);
     }
+    
 
     // Xử lý lưu danh sách người chơi
     function savePlayerList() {
@@ -146,15 +157,15 @@ document.addEventListener("DOMContentLoaded", () => {
             .value.split("\n")
             .map((name) => name.trim())
             .filter((name) => name);
-
+    
         if (playerNames.length === 0) {
             alert("Vui lòng thêm ít nhất một người chơi!");
             return;
         }
-
+    
         const characterType = selectCharacter.value;
         const avatarSrc = avatarSrcs[characterType] || avatarSrcs.bee;
-
+    
         participants.innerHTML = playerNames
             .map(
                 (name, i) => `
@@ -162,32 +173,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span class="name name-${i}">${name}</span>`
             )
             .join("");
-
-            players.length = 0;
-
-        // Điều chỉnh các thuộc tính cụ thể sau khi thêm danh sách
+    
+        players.length = 0;
+    
         const avatars = participants.querySelectorAll(".avatar");
         avatars.forEach((avatar) => {
             avatar.classList.remove("bee-avatar", "bike-avatar", "bus-avatar");
             avatar.classList.add(`${characterType}-avatar`);
-
+    
             if (characterType === "bike") {
                 avatar.style.transform = "scaleX(1)";
             } else if (characterType === "bee" || characterType === "bus") {
                 avatar.style.transform = "scaleX(-1)";
             }
         });
-
+    
         winnerImage.style.display = "none";
         winnerName.textContent = "";
-
+    
         main.classList.remove("main-move");
         startLine.classList.remove("moveStartingLine");
         finishLine.classList.remove("moveFinishLine");
-
+    
         positionPlayers();
         modal.style.display = "none";
     }
+    
 
     // Gán sự kiện
     document.getElementById("start-btn").addEventListener("click", startRace);
