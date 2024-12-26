@@ -99,7 +99,8 @@ main {
 .race-end-img {
     position: absolute;
     height: 505px;
-    left: 1600px;
+    /* left: 1600px; */
+    right: -10%;
     top: 10px;
 }
 
@@ -151,7 +152,6 @@ main {
 .avatar {
     position: absolute;
     left: 254px;
-    transform: scaleX(-1);
     width: 100px;
     height: 100px;
     object-fit: cover;
@@ -276,9 +276,9 @@ main {
 /* Hiệu ứng di chuyển vạch đích */
 @keyframes moveFinishLine {
     from {
-        left: 1688px;
+        right: -10%;
     } to {
-        left: 1300px;
+        right: 10%;
     }
 }
 

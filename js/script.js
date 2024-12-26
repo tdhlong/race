@@ -26,14 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const characterType = selectCharacter.value;
 
         const avatarSrc = avatarSrcs[characterType] || avatarSrcs.bee;
-        const shouldFlip = characterType === "bee" || characterType === "bus";
         const resize = characterType === "bus";
 
         // Cập nhật tất cả avatar
         const avatars = participants.querySelectorAll(".avatar");
         avatars.forEach((avatar) => {
             avatar.src = avatarSrc;
-            avatar.style.transform = shouldFlip ? "scaleX(-1)" : "scaleX(1)";
 
             // Cập nhật vị trí và kích thước
             if (resize) {
@@ -46,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Hàm gán vị trí người chơi
     function positionPlayers() {
+        const viewportWidth = window.innerWidth;
+        const baseSpeed = 500;
         const trackHeight = 505;
         const avatars = participants.querySelectorAll("img");
         const names = participants.querySelectorAll("span");
@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
             players.push({
                 avatar,
                 name,
-                speed: Math.random() * 0.05 + 0.02,
-                position: 16.5,
+                speed: (Math.random() * 0.06 + 0.02) * (viewportWidth / baseSpeed),
+                position: 18.5,
             });
         });
     }
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const nameWidth = player.name.offsetWidth;
                 player.name.style.left = `calc(${player.position}% - ${nameWidth}px)`;
     
-                if (player.position >= 88 && !raceOver) {
+                if (player.position >= 90 && !raceOver) {
                     raceOver = true;
                     clapSound.play();
                     displayWinner(player.name.textContent);
@@ -103,13 +103,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Hàm thay đổi tốc độ ngẫu nhiên
     function randomizePlayerSpeeds() {
+        const viewportWidth = window.innerWidth;
+        const baseSpeed = 500;
         players.forEach((player) => {
-            player.speed = Math.random() * 0.05 + 0.02;
+            player.speed = (Math.random() * 0.06 + 0.02) * (viewportWidth / baseSpeed);
         });
     }
 
     // Khởi động cuộc đua
     function startRace() {
+        const viewportWidth = window.innerWidth;
+        const baseSpeed = 500;
         raceOver = false;
         winnerImage.style.display = "none";
         winnerName.textContent = "";
@@ -127,13 +131,13 @@ document.addEventListener("DOMContentLoaded", () => {
         raceMusic.play();
     
         players.forEach((player) => {
-            player.position = 16.5;
-            player.speed = Math.random() * 0.05 + 0.02;
-            player.avatar.style.left = "16.5%";
+            player.position = 18.5;
+            player.speed = (Math.random() * 0.06 + 0.02) * (viewportWidth / baseSpeed);
+            player.avatar.style.left = "18.5%";
     
             // Đặt lại vị trí left cho name
             const nameWidth = player.name.offsetWidth;
-            player.name.style.left = `calc(16.5% - ${nameWidth}px)`;
+            player.name.style.left = `calc(18.5% - ${nameWidth}px)`;
     
             if (selectCharacter.value === "bus") {
                 player.avatar.style.marginLeft = "10px";
@@ -180,12 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
         avatars.forEach((avatar) => {
             avatar.classList.remove("bee-avatar", "bike-avatar", "bus-avatar");
             avatar.classList.add(`${characterType}-avatar`);
-    
-            if (characterType === "bike") {
-                avatar.style.transform = "scaleX(1)";
-            } else if (characterType === "bee" || characterType === "bus") {
-                avatar.style.transform = "scaleX(-1)";
-            }
         });
     
         winnerImage.style.display = "none";
