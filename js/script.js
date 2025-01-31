@@ -74,15 +74,15 @@ document.addEventListener("DOMContentLoaded", () => {
         jsConfetti.addConfetti();
 
         // Giảm âm lượng của nhạc nền từ từ
-    let volume = raceMusic.volume;
-    const volumeInterval = setInterval(() => {
-        if (volume > 0) {
-            volume -= 0.05; // Giảm âm lượng từng bước
-            raceMusic.volume = volume;
-        } else {
-            clearInterval(volumeInterval); // Dừng khi âm lượng bằng 0
-        }
-    }, 100); // Mỗi 100ms giảm âm lượng một lần
+        const volumeInterval = setInterval(() => {
+            if (raceMusic.volume > 0.05) {
+                console.log(raceMusic.volume);
+                raceMusic.volume -= 0.05; // Giảm âm lượng từng bước
+            } else {
+                raceMusic.volume = 0;
+                clearInterval(volumeInterval); // Dừng khi âm lượng bằng 0
+            }
+        }, 150); // Mỗi 100ms giảm âm lượng một lần
     }
 
     // Hàm cập nhật vị trí người chơi
@@ -127,6 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
         raceOver = false;
         winnerImage.style.display = "none";
         winnerName.textContent = "";
+
+        raceMusic.currentTime = 0;
+        raceMusic.volume = 1;
     
         main.classList.remove("main-move");
         startLine.classList.remove("moveStartingLine");
