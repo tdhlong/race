@@ -73,6 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
         winnerName.textContent = name;
         jsConfetti.addConfetti();
 
+        // Giảm âm lượng của nhạc nền từ từ
+    let volume = raceMusic.volume;
+    const volumeInterval = setInterval(() => {
+        if (volume > 0) {
+            volume -= 0.05; // Giảm âm lượng từng bước
+            raceMusic.volume = volume;
+        } else {
+            clearInterval(volumeInterval); // Dừng khi âm lượng bằng 0
+        }
+    }, 100); // Mỗi 100ms giảm âm lượng một lần
     }
 
     // Hàm cập nhật vị trí người chơi
